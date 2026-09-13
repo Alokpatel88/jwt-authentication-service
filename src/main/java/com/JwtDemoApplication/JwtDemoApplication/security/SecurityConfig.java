@@ -8,42 +8,39 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
+	public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+	}
 
-        return config.getAuthenticationManager();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http) throws Exception {
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(
-                auth -> auth
-                    .requestMatchers(
-                        "/premitAllResponce",
-                        "/hello",
-                        "/saveuser",
-                        "/getUsersList",
-                        "/login"
-                    )
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-            );
+		return config.getAuthenticationManager();
+	}
 
-        return http.build();
-    }
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+		http.csrf(csrf -> csrf.disable())
+
+				.authorizeHttpRequests(auth -> auth
+						.requestMatchers("/premitAllResponce", "/hello", "/saveuser", "/getUsersList", "/login")
+						.permitAll().anyRequest().authenticated())
+
+				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+		return http.build();
+	}
 }
