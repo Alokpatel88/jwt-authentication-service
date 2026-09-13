@@ -29,8 +29,8 @@ public class PrivateAPIs {
 		return "This is a private API 2 password protected";
 
 	}
-	@PostMapping("/saveuser")
-	private String saveUser(@RequestBody User user) {
+	@PostMapping("/saveuser1")
+	private String saveUser1(@RequestBody User user) {
 		User user1 = new User();
 		user1.setUserName(user.getUserName());
 		user1.setPassword(user.getPassword());
