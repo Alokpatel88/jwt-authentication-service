@@ -16,15 +16,12 @@ import com.JwtDemoApplication.JwtDemoApplication.Entity.User;
 @EnableJpaRepositories
 @Component
 public interface UserRepository extends JpaRepository<User, Integer> {
-
-//	User save(User user);
-//	ArrayList<User> findAll();
-	User findByUserName(String username);
-
-//	@Query("SELECT u FROM User u WHERE u.age BETWEEN :minAge AND :maxAge")
-//	List<User> findUsersBetweenAge(@Param("minAge") Integer minAge, @Param("maxAge") Integer maxAge);
-
 	@Query("SELECT u FROM User u")
 	ArrayList<User> getAllUsers();
-
+	
+	@Query("SELECT u FROM User u WHERE u.userName = :userName")
+	User findByUserName(@Param("userName") String userName);
+	
+//	@Query("SELECT u FROM User u WHERE u.id = :id")
+//	User findById(@Param("id") Integer id);
 }

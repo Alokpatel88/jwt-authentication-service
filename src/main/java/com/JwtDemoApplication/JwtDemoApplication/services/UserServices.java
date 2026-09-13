@@ -17,7 +17,13 @@ import lombok.Setter;
 public class UserServices {
 	@Autowired
 	UserRepository userRepository;
+	
 	public ArrayList<User> getUsersList() {
 		return userRepository.getAllUsers();
 	}
+	
+	public User getUsersList(String userName) {
+		return userRepository.findByUserName(userName);
+	}
+	
 }

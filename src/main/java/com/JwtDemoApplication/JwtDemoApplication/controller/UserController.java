@@ -22,4 +22,9 @@ public class UserController {
 		return userServices.getUsersList();
 	}
 	
+	@GetMapping("/getUserByUserName")
+	public User getUserByUserName(@RequestParam String userName) {
+		return userServices.getUsersList(userName);
+	}
+	
 }
