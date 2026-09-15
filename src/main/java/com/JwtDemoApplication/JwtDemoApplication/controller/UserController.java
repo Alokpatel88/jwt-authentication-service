@@ -31,7 +31,7 @@ public class UserController {
 	@PostMapping("/saveuser")
 	private String saveUser(@RequestBody User user) {
 		userServices.saveUser(user);
-		return "User saved successfully";
+		return "User saved successfully.";
 	}
 	
 	@GetMapping("/getUsersList")
